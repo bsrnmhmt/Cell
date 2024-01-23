@@ -1,9 +1,11 @@
-const gridWidth = 20;
-const gridHeight = 20;
+const canvasWidth = 400;
+const canvasHeight = 300;
 const cellSize = 20;
+const gridWidth = Math.floor(canvasWidth / cellSize);
+const gridHeight = Math.floor(canvasHeight / cellSize);
 let grid = [];
-
-let play = true;
+console.log(gridWidth, gridHeight);
+let play = false;
 function setup() {
   createCanvas(gridWidth * cellSize, gridHeight * cellSize);
   //noCursor();
@@ -11,14 +13,16 @@ function setup() {
   for (let element of document.getElementsByClassName("p5Canvas")) {
     element.addEventListener("contextmenu", (e) => e.preventDefault());
   }
- frameRate(10);
+  frameRate(60);
   initGrid();
 }
+
+let counter = 0;
 function draw() {
   background(220);
   drawGrid();
   drawPointer();
-  if (play) nextCycle(); 
+  if (play && counter++ % 6 == 0) nextCycle(); 
 
 }
 
@@ -79,14 +83,14 @@ function neighbourCount(x, y) {
   x += gridWidth;
   y += gridHeight;
 
-  let no = grid[(x + 0) % gridWidth][(y - 1) % gridWidth];
-  let ne = grid[(x + 1) % gridWidth][(y - 1) % gridWidth];
-  let ea = grid[(x + 1) % gridWidth][(y + 0) % gridWidth];
-  let se = grid[(x + 1) % gridWidth][(y + 1) % gridWidth];
-  let so = grid[(x + 0) % gridWidth][(y + 1) % gridWidth];
-  let sw = grid[(x - 1) % gridWidth][(y + 1) % gridWidth];
-  let we = grid[(x - 1) % gridWidth][(y + 0) % gridWidth];
-  let nw = grid[(x - 1) % gridWidth][(y - 1) % gridWidth];
+  let no = grid[(x + 0) % gridWidth][(y - 1) % gridHeight];
+  let ne = grid[(x + 1) % gridWidth][(y - 1) % gridHeight];
+  let ea = grid[(x + 1) % gridWidth][(y + 0) % gridHeight];
+  let se = grid[(x + 1) % gridWidth][(y + 1) % gridHeight];
+  let so = grid[(x + 0) % gridWidth][(y + 1) % gridHeight];
+  let sw = grid[(x - 1) % gridWidth][(y + 1) % gridHeight];
+  let we = grid[(x - 1) % gridWidth][(y + 0) % gridHeight];
+  let nw = grid[(x - 1) % gridWidth][(y - 1) % gridHeight];
   if (no == 1) count++;
   if (ne == 1) count++;
   if (ea == 1) count++;
@@ -114,6 +118,7 @@ function mousePressed() {
 function keyTyped() {
   //if (key == " ") nextCycle();
   if (key == " ") play = !play;
+  if (key == "s") nextCycle();
 }
 /* #endregion */
 
