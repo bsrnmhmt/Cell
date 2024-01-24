@@ -1,6 +1,6 @@
 const canvasWidth = 400;
 const canvasHeight = 300;
-const cellSize = 20;
+const cellSize = 4;
 const gridWidth = Math.floor(canvasWidth / cellSize);
 const gridHeight = Math.floor(canvasHeight / cellSize);
 let grid = [];
@@ -22,7 +22,7 @@ function draw() {
   background(220);
   drawGrid();
   drawPointer();
-  if (play && counter++ % 6 == 0) nextCycle(); 
+  if (play && counter++ % 1 == 0) nextCycle(); 
 
 }
 
@@ -103,7 +103,7 @@ function neighbourCount(x, y) {
 }
 /* #endregion */
 
-/* #region  Controls */
+/* #region Controls */
 function mouseDragged() {
   let x = Math.floor(mouseX / cellSize);
   let y = Math.floor(mouseY / cellSize);
@@ -119,10 +119,12 @@ function keyTyped() {
   //if (key == " ") nextCycle();
   if (key == " ") play = !play;
   if (key == "s") nextCycle();
+  if (key == "r") randomGrid();
+  if (key == "c") initGrid();
 }
 /* #endregion */
 
-/* #region  Grid */
+/* #region Grid */
 function initGrid() {
   for (let x = 0; x < gridWidth; x++) {
     grid[x] = [];
@@ -140,6 +142,14 @@ function drawGrid() {
         fill(128);
         rect(x * cellSize, y * cellSize, cellSize, cellSize);
       }
+    }
+  }
+}
+
+function randomGrid() {
+  for (let x = 0; x < gridWidth; x++) {
+    for (let y = 0; y < gridHeight; y++) {
+      grid[x][y] = Math.floor(random(2));
     }
   }
 }
